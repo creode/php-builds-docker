@@ -4,7 +4,6 @@ variables:
   # See https://github.com/docker-library/docker/pull/166
   DOCKER_TLS_CERTDIR: ""
   PROJECT_NAME: creode/php-builds
-  DOCKER_HUB_USER: creodeadmin
 
 build:
   image: jonoh/docker-buildx-qemu:19.03.5_0.3.1
@@ -14,7 +13,7 @@ build:
       entrypoint: ["env", "-u", "DOCKER_HOST"]
       command: ["dockerd-entrypoint.sh"]
   before_script:
-    - echo "$DOCKER_HUB_PASSWORD" | docker login -u creodeadmin --password-stdin
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USER" --password-stdin
     # Use docker-container driver to allow useful features (push/multi-platform)
     - docker buildx create --driver docker-container --use
     - docker buildx inspect --bootstrap
@@ -22,4 +21,4 @@ build:
     - echo $PROJECT_NAME:$CI_COMMIT_REF_NAME
   script:
     - update-binfmts --enable # Important: Ensures execution of other binary formats is enabled in the kernel
-    - docker buildx build --platform linux/arm/v6,linux/arm/v7,local --pull -t "$PROJECT_NAME:$CI_COMMIT_REF_NAME" --push .
+    - docker buildx build --platform=linux/arm,linux/arm64,linux/amd64 --pull -t "$PROJECT_NAME:$CI_COMMIT_REF_NAME" --push .
