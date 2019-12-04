@@ -1,0 +1,19 @@
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  PROJECT_NAME: creode/php-builds
+
+build:
+  image: jonoh/docker-buildx-qemu
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$DOCKER_HUB_USER" -p "$DOCKER_HUB_PASSWORD" $CI_REGISTRY
+    # Use docker-container driver to allow useful features (push/multi-platform)
+    - docker buildx create --driver docker-container --use
+    - docker buildx inspect --bootstrap\
+    # Set version to the current branch.
+    - echo $PROJECT_NAME:$CI_COMMIT_REF_NAME
+  script:
+    - update-binfmts --enable # Important: Ensures execution of other binary formats is enabled in the kernel
+    - docker buildx build --platform linux/arm/v6,linux/arm/v7,local --pull -t "$PROJECT_NAME:$CI_COMMIT_REF_NAME" --push .
