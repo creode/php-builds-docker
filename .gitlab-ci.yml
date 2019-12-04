@@ -13,8 +13,9 @@ build:
       entrypoint: ["env", "-u", "DOCKER_HOST"]
       command: ["dockerd-entrypoint.sh"]
   before_script:
-    - echo $DOCKER_HUB_PASSWORD
-    - echo $DOCKER_HUB_PASSWORD > secret/password.txt
+    - echo "$DOCKER_HUB_PASSWORD"
+    - echo "$DOCKER_HUB_PASSWORD" > secret/password.txt
+    - cat secret/password.txt
     - cat secret/password.txt | docker login --username $DOCKER_HUB_USER --password-stdin
     # Use docker-container driver to allow useful features (push/multi-platform)
     - docker buildx create --driver docker-container --use
