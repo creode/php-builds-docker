@@ -6,13 +6,14 @@ variables:
   PROJECT_NAME: creode/php-builds
 
 build:
-  image: jonoh/docker-buildx-qemu
+  image: jonoh/docker-buildx-qemu:19.03.5_0.3.1
   stage: build
   services:
     - name: docker:dind
       entrypoint: ["env", "-u", "DOCKER_HOST"]
       command: ["dockerd-entrypoint.sh"]
   before_script:
+    - echo $DOCKER_HUB_PASSWORD
     - echo $DOCKER_HUB_PASSWORD > secret/password.txt
     - cat secret/password.txt | docker login --username $DOCKER_HUB_USER --password-stdin
     # Use docker-container driver to allow useful features (push/multi-platform)
