@@ -8,7 +8,7 @@ build:
   services:
     - docker:dind
   before_script:
-    - docker login -u "$DOCKER_HUB_USER" -p "$DOCKER_HUB_PASSWORD" $CI_REGISTRY
+    - docker login -u "$DOCKER_HUB_USER" -p "$DOCKER_HUB_PASSWORD"
     # Use docker-container driver to allow useful features (push/multi-platform)
     - docker buildx create --driver docker-container --use
     - docker buildx inspect --bootstrap\
