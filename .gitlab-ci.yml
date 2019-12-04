@@ -23,5 +23,7 @@ build:
     - update-binfmts --enable # Important: Ensures execution of other binary formats is enabled in the kernel
     - docker buildx build --platform=linux/arm,linux/arm64,linux/amd64 --pull -t "$PROJECT_NAME:$CI_COMMIT_REF_NAME" --push .
   only:
+    refs:
+      - branches
     variables:
-      - $CI_COMMIT_REF_PROTECTED
+      - $CI_COMMIT_REF_PROTECTED == "true"
