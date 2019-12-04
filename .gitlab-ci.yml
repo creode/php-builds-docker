@@ -21,4 +21,4 @@ build:
     - echo $PROJECT_NAME:$CI_COMMIT_REF_NAME
   script:
     - update-binfmts --enable # Important: Ensures execution of other binary formats is enabled in the kernel
-    - docker buildx build --platform=linux/arm,linux/arm64,linux/amd64 --pull -t "$PROJECT_NAME:$CI_COMMIT_REF_NAME" --push .
+    - docker buildx build --platform=linux/arm,linux/arm64,linux/amd64,local --pull -t "$PROJECT_NAME:$CI_COMMIT_REF_NAME" --push .
