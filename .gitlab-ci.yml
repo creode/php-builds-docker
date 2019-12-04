@@ -14,13 +14,10 @@ build:
       entrypoint: ["env", "-u", "DOCKER_HOST"]
       command: ["dockerd-entrypoint.sh"]
   before_script:
-    - echo "$DOCKER_HUB_PASSWORD"
-    - echo "$DOCKER_HUB_PASSWORD" > secret/password.txt
-    - cat secret/password.txt
-    - cat secret/password.txt | docker login -u creodeadmin --password-stdin
+    - echo "$DOCKER_HUB_PASSWORD" | docker login -u creodeadmin --password-stdin
     # Use docker-container driver to allow useful features (push/multi-platform)
     - docker buildx create --driver docker-container --use
-    - docker buildx inspect --bootstrap\
+    - docker buildx inspect --bootstrap
     # Set version to the current branch.
     - echo $PROJECT_NAME:$CI_COMMIT_REF_NAME
   script:
