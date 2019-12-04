@@ -4,6 +4,7 @@ variables:
   # See https://github.com/docker-library/docker/pull/166
   DOCKER_TLS_CERTDIR: ""
   PROJECT_NAME: creode/php-builds
+  DOCKER_HUB_USER: creodeadmin
 
 build:
   image: jonoh/docker-buildx-qemu:19.03.5_0.3.1
@@ -16,7 +17,7 @@ build:
     - echo "$DOCKER_HUB_PASSWORD"
     - echo "$DOCKER_HUB_PASSWORD" > secret/password.txt
     - cat secret/password.txt
-    - cat secret/password.txt | docker login --username="$DOCKER_HUB_USER" --password-stdin
+    - cat secret/password.txt | docker login -u "$DOCKER_HUB_USER" --password-stdin
     # Use docker-container driver to allow useful features (push/multi-platform)
     - docker buildx create --driver docker-container --use
     - docker buildx inspect --bootstrap\
