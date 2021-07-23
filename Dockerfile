@@ -1,5 +1,5 @@
 # Set the base image for subsequent instructions
-FROM php:7.4
+FROM php:7.4.21
 
 # Update packages
 RUN apt-get update
@@ -15,5 +15,5 @@ RUN apt-get clean
 RUN docker-php-ext-install gd pdo_mysql
 
 # Install Composer
-RUN curl --silent --show-error https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl --silent --show-error https://getcomposer.org/installer | php -- --2 --install-dir=/usr/local/bin --filename=composer
 
